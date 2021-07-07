@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import axios from 'axios'
-// import { State } from '../reducers/item'
-import { setItem } from "../actions";
+import { setItem } from "../actions/index";
+import { RootState } from './store'
 
 const Home = () => {
     const dispatch = useDispatch()
-    const items = useSelector((state:any) => state.item)
+    const items = useSelector((state:RootState) => state.item)
     const [array, setArray] = useState(items)
     useEffect(() => {
         axios.get('/api/items')
@@ -22,14 +22,18 @@ const Home = () => {
     return (
         <React.Fragment>
             Home
-            {items.map((item:any) => (
+            {items.map((item) => (
                 <div key={item.id}>
-                    {item.name}
+                    <Link to={`/item-detail/${item.id}`}>
+                    <p>{item.name}</p>
+                    <p>M:{item.pm}(税込)</p>
+                    <p>L:{item.pl}(税込)</p>
                     <img
                       style={{ width: 345, height: 200 }}
                       src={item.imgpath}
-                      alt="Logo"
+                      alt="Pic"
                     />
+                    </Link>
                 </div>
                 
             ))}            

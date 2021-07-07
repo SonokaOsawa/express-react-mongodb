@@ -1,22 +1,12 @@
-// import { reducerWithInitialState } from 'typescript-fsa-reducers';
-// import * as actions from '../actions/index';
-// import {Item} from '../views/store'
 import {SETITEM} from '../actions/index'
+import {Item} from '../views/store'
 
-// export interface State {
-//     items:any
-// }
+interface State {
+    type: string,
+    itemList: Item[]
+}
 
-// const initialState: State = {
-//     items: []
-// }
-
-// export default reducerWithInitialState(initialState)
-//     .case(actions.setItem, (state, payload) => ({
-//         items: payload.items
-//     }))
-
-export default (state:any = [], action:any) => {
+export const ItemReducer = (state:Item[] = [], action:State) => {
     switch(action.type){
         case SETITEM:
             state = []

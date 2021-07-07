@@ -1,11 +1,17 @@
-import { reducerWithInitialState } from 'typescript-fsa-reducers';
-import * as actions from '../actions/index';
+import {SETTOPPING} from '../actions/index'
+import {Topping} from '../views/store'
 
-const initialState = {
-    topping: []
+interface State {
+    type: string,
+    toppingList: Topping[]
 }
-
-export default reducerWithInitialState(initialState)
-    .case(actions.setTopping, (state) => ({
-        ...state
-    }))
+export const ToppingReducer = (state:Topping[] = [], action:State) => {
+    switch(action.type){
+        case SETTOPPING:
+            state = []
+            const toppingArray = action.toppingList
+            return toppingArray
+        default:
+            return state
+    }
+}
