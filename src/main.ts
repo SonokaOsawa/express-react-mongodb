@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import item from './item';
 import topping from './topping';
+import user from './user';
 
 const app = express()
 const port = 3001
@@ -36,6 +37,37 @@ mongoose.connect(dbUrl,
                 res.status(500).send()
             } else {
                 res.status(200).send(topArray)
+            }
+        })
+    })
+
+    app.get('/api/users', (req,res) => {
+        user.find({},(err, userArray) => {
+            if(err) {
+                res.status(500).send()
+            } else {
+                res.status(200).send(userArray)
+            }
+        })
+    })
+
+    app.post('/api/users', (req,res) => {
+        const {email, pass} = req.body
+
+        new user({
+            email,
+            pass,
+            login:true
+        }).save((err:any) => {
+            if (err) res.status(500)
+            else {
+                user.find({},(err, userArray) => {
+                    if(err) {
+                        res.status(500).send()
+                    } else {
+                        res.status(200).send(userArray)
+                    }
+                })
             }
         })
     })

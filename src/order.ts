@@ -20,7 +20,6 @@ const OrderSchema = new mongoose.Schema({
         size: String,
         toppings:{
             topid: Number,
-            size: String
         }
     }
 })
