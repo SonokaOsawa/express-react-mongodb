@@ -39,8 +39,8 @@ export const changePass = (pass:string) => {
     })
 }
 
-export const LOGIN = 'logIn'
-export const logIn = (user:User) => {
+export const LOGIN = 'login'
+export const login = (user:User[]) => {
     return({
         type:LOGIN,
         user

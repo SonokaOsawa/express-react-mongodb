@@ -80,6 +80,10 @@ const ItemDetail = () => {
         totalPrice = (item.pl + (200 * topM) + (300 * topL)) * buyNum
     }
     
+    const handleCartIn = () => {
+
+    }
+
     return (
         <React.Fragment>
             商品詳細
@@ -122,7 +126,7 @@ const ItemDetail = () => {
                 />
             </div>
             <p>合計金額:{totalPrice.toLocaleString()}円</p>
-            <button>カートに入れる</button>
+            <button onClick={handleCartIn}>カートに入れる</button>
         </React.Fragment>
     )
 }

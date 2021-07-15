@@ -1,4 +1,4 @@
-import {REGIST, LOGIN, CHANGEEMAIL, CHANGEPASS} from '../actions/index';
+import {REGIST, CHANGEEMAIL, CHANGEPASS} from '../actions/index';
 import {User} from '../views/store';
 
 interface State {

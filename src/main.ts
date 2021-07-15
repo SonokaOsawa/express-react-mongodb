@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 mongoose.connect(dbUrl, 
-{ useNewUrlParser: true, useUnifiedTopology: true },
+{ useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false },
 (dbError) => {
     if(dbError) {
         console.log(dbError)
@@ -62,6 +62,40 @@ mongoose.connect(dbUrl,
             if (err) res.status(500)
             else {
                 user.find({},(err, userArray) => {
+                    if(err) {
+                        res.status(500).send()
+                    } else {
+                        res.status(200).send(userArray)
+                    }
+                })
+            }
+        })
+    })
+
+    app.put('/api/users/logout/:id', (req,res) => {
+        const id = req.params.id
+        console.log(id)
+        user.findByIdAndUpdate(id, {$set:{login:false}}, err =>{
+            if (err) res.status(500).send()
+            else{
+                user.find({}, (err, userArray) => {
+                    if(err) {
+                        res.status(500).send()
+                    } else {
+                        res.status(200).send(userArray)
+                    }
+                })
+            }
+        })
+    })
+
+    app.put('/api/users/login/:id', (req,res) => {
+        const id = req.params.id
+        console.log(id)
+        user.findByIdAndUpdate(id, {$set:{login:true}}, (err) => {
+            if(err) res.status(500).send()
+            else{
+                user.find({}, (err, userArray) => {
                     if(err) {
                         res.status(500).send()
                     } else {

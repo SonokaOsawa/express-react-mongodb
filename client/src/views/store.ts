@@ -1,13 +1,15 @@
 import { combineReducers, createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
-import {ItemReducer} from '../reducers/item'
-import {ToppingReducer} from '../reducers/topping'
-import {UserReducer} from '../reducers/user'
+import {ItemReducer} from '../reducers/item';
+import {ToppingReducer} from '../reducers/topping';
+import {UserReducer} from '../reducers/user';
+import {LoginReducer} from '../reducers/login';
 
 const RootReducer = combineReducers({
     item: ItemReducer,
     topping: ToppingReducer,
-    user: UserReducer
+    user: UserReducer,
+    login: LoginReducer
 })
 
 export type RootState = ReturnType<typeof RootReducer>
@@ -35,5 +37,6 @@ export interface Topping {
 export interface User {
     email: string,
     pass: string,
-    login: boolean
+    login: boolean,
+    _id?: string
 }

@@ -5,13 +5,13 @@ import CartItem from './views/CartItem';
 import OrderHistory from './views/OrderHistory';
 import OrderComplete from './views/OrderComplete';
 import ItemDetail from './views/ItemDetail';
-import Login from './views/Login'
-import Regist from './views/Regist'
+import Login from './views/Login';
+import Regist from './views/Regist';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { RootState } from './views/store'
+import { RootState } from './views/store';
 import axios from 'axios';
 import { useSelector, useDispatch } from "react-redux";
-import {regist} from './actions/index'
+import {regist} from './actions/index';
 
 function App() {
   const user = useSelector((state:RootState) => state.user)
@@ -30,7 +30,6 @@ function App() {
       console.log(new Error(err))
     })
   },[])
-  console.log(user)
   return (
     <Router>
       <Header/>
