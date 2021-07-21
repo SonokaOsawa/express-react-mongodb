@@ -1,16 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import {useHistory, useParams} from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { setTopping, setItem } from '../actions/index';
+import { setTopping, setItem, cart } from '../actions/index';
 import axios from 'axios';
 import { RootState, Item } from './store';
 import TextField from '@material-ui/core/TextField';
 
 const ItemDetail = () => {
+    const history = useHistory()
+    const handleLink = (path: string) => history.push(path)
     const {item_id}:{item_id:string} = useParams()
     const dispatch = useDispatch()
     const items = useSelector((state:RootState) => state.item)
     const toppings = useSelector((state:RootState) => state.topping)
+    const user = useSelector((state:RootState) => state.user)
+    const order = useSelector((state:RootState) => state.cart)
     useEffect(() => {
         axios.get('/api/items')
         .then(res => {
@@ -31,6 +35,15 @@ const ItemDetail = () => {
             console.error(new Error(err))
         })
     },[])
+    useEffect(() => {
+        const id = user.userid
+        axios.get(`/api/orders/cart/${id}`)
+        .then(res => {
+            const orderArray = res.data
+            console.log(orderArray)
+            dispatch(cart(orderArray))
+        })
+    },[user])
     let item:Item = {
         id:1,
         name:'',
@@ -79,18 +92,53 @@ const ItemDetail = () => {
     }else if(size == 'L'){
         totalPrice = (item.pl + (200 * topM) + (300 * topL)) * buyNum
     }
-    
     const handleCartIn = () => {
-
+        if(user.login){
+            const cartItem = {
+                orderid: user.userid,
+                status: 0,
+                iteminfo:[{
+                    price: totalPrice,
+                    buynum: buyNum,
+                    itemid: item.id,
+                    size: size,
+                    toppings: topp
+                }]
+            }
+            const iteminfo = {
+                price:totalPrice,
+                buynum: buyNum,
+                itemid: item.id,
+                size: size,
+                toppings: topp
+            }
+            if(Object.keys(order).length !== 0){
+                const id = user.userid
+                axios.put(`/api/orders/addcart/${id}`, {iteminfo})
+                .then(res => {
+                    const orderArray = res.data
+                    dispatch(cart(orderArray))
+                })
+            }else {
+                axios.post(`/api/orders/cart`,{cartItem})
+                .then(res => {
+                    const orderArray = res.data
+                    dispatch(cart(orderArray))
+                })
+            }
+            handleLink('/cart-item')
+        }else{
+            alert("ログインしてください。会員登録がまだの方は新規登録をお願いします。")
+        }
     }
-
+    console.log(order)
+    console.log(Object.keys(order).length)
     return (
         <React.Fragment>
             商品詳細
                 <p>{item.name}</p>
                 <p>
                     <img
-                    style={{ width: 345, height: 200 }}
                     src={`/${item.imgpath}`}
                     alt="Pic"
                     />

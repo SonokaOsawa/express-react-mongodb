@@ -14,6 +14,8 @@ const Login = () => {
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
     const dispatch = useDispatch()
+    let emailError = ''
+    let passError = ''
     useEffect(() => {
         axios.get('/api/users')
         .then(res => {
@@ -28,36 +30,32 @@ const Login = () => {
                 dispatch(regist(u))
             }
         })
+        
     },[email,pass])
     
     const changeEmail = (e:any) => {
         setEmail(e.target.value)
     }
-    let emailError;
-    users.forEach((u) => {
-        if(email === ''){
-            emailError = "メールアドレスを入力して下さい"
-        }else if(email === u.email){
-            emailError = ''
-        }else{
-            emailError = "メールアドレスが間違っています"
-        }
-    })
-    
+    if(email === ''){
+        emailError = "メールアドレスを入力して下さい"
+    }else if(email === user.email){
+        emailError = ''
+    }else{
+        emailError = "メールアドレスが間違っています"
+    }
+
     
     const changePass = (e:any) => {
         setPass(e.target.value)
     }
-    let passError;
-    users.forEach((u) => {
-        if(pass === ''){
-            passError = "パスワードを入力して下さい"
-        }else if(pass === u.pass){
-            passError = ''
-        }else{
-            passError = "パスワードが間違っています"
-        }
-    })
+    
+    if(pass === ''){
+        passError = "パスワードを入力して下さい"
+    }else if(pass !== user.pass){
+        passError = 'パスワードが間違っています'
+    }else if(pass === user.pass){
+        passError = ""
+    }
     
     const handleLogin = (id:string | undefined) => {
         if(email === user.email && pass === user.pass){
@@ -78,7 +76,6 @@ const Login = () => {
             alert("登録した情報を正しく入力してください。登録をしていない方は新規登録ボタンから新規登録してください。")
         }
     }
-
     return (
         <React.Fragment>
             ログイン

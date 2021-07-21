@@ -1,4 +1,4 @@
-import {Item, Topping, User} from '../views/store'
+import {Item, Topping, User, Order} from '../views/store'
 export const SETITEM = 'setItem'
 export const setItem = (items:Item[]) => {
     return({
@@ -44,5 +44,21 @@ export const login = (user:User[]) => {
     return({
         type:LOGIN,
         user
+    })
+}
+
+export const SETORDERS = 'setOrders'
+export const setOrders = (orders:Order[]) => {
+    return({
+        type:SETORDERS,
+        orderList:orders
+    })
+}
+
+export const CART = 'cart'
+export const cart = (cart:Order) => {
+    return({
+        type:CART,
+        cartList:cart
     })
 }

@@ -21,11 +21,13 @@ const Regist = () => {
     let pass = user.pass
     
     const onSubmit:SubmitHandler<Inputs> = () => {
-        axios.post('/api/users',{email,pass})
+        axios.post('/api/users/register',{email, pass})
         .then(res => {
-            const user = res.data
-            if(user.login){
-            dispatch(regist(user))}
+            const userArray = res.data
+            userArray.forEach((u:any) => {
+                if(u.login){
+                    dispatch(regist(u))}
+            })
         })
         .catch(err => {
             console.log(new Error(err))

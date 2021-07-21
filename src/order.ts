@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 mongoose.Promise = global.Promise
 
 const OrderSchema = new mongoose.Schema({
+    orderid: Number,
     name: String,
     email: String,
     zipcode: String,
@@ -12,16 +13,16 @@ const OrderSchema = new mongoose.Schema({
     paymethod: Number,
     card: String,
     orderdate: String,
-    price: Number,
     status: Number,
-    iteminfo:{
+    iteminfo:[{
+        price: Number,
         buynum: Number,
         itemid: Number,
         size: String,
-        toppings:{
+        toppings:[{
             topid: Number,
-        }
-    }
+        }]
+    }]
 })
 
 const order = mongoose.model('Order', OrderSchema);

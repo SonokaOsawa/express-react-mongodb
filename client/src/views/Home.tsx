@@ -29,7 +29,7 @@ const Home = () => {
                     <p>M:{item.pm}(税込)</p>
                     <p>L:{item.pl}(税込)</p>
                     <img
-                      style={{ width: 345, height: 200 }}
+                      style={{ width: 224, height: 224 }}
                       src={item.imgpath}
                       alt="Pic"
                     />

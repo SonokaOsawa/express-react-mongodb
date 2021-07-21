@@ -11,7 +11,9 @@ interface State {
 const initialState:User = {
     email:'',
     pass:'',
-    login:false
+    login:false,
+    _id:"0",
+    userid: 1
 }
 
 export const UserReducer = (state:User = initialState, action:State) => {

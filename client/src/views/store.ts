@@ -4,12 +4,16 @@ import {ItemReducer} from '../reducers/item';
 import {ToppingReducer} from '../reducers/topping';
 import {UserReducer} from '../reducers/user';
 import {LoginReducer} from '../reducers/login';
+import { OrderReducer } from "../reducers/orders";
+import { CartReducer } from "../reducers/cart";
 
 const RootReducer = combineReducers({
     item: ItemReducer,
     topping: ToppingReducer,
     user: UserReducer,
-    login: LoginReducer
+    login: LoginReducer,
+    order: OrderReducer,
+    cart: CartReducer
 })
 
 export type RootState = ReturnType<typeof RootReducer>
@@ -38,5 +42,37 @@ export interface User {
     email: string,
     pass: string,
     login: boolean,
-    _id?: string
+    _id: string,
+    userid: number,
+    name?: string,
+    zipcode?: string,
+    address?: string,
+    tel?: string,
+    card?: string,
+}
+
+export interface Order {
+    _id?: string,
+    orderid?: number,
+    name?: string,
+    email?: string,
+    zipcode?: string,
+    address?: string,
+    tel?: string,
+    time?: string,
+    paymethod?: number,
+    card?: string,
+    orderdate?: string,
+    status?: number,
+    iteminfo:[{
+        _id: string,
+        price: number,
+        buynum: number,
+        itemid: number,
+        size: string,
+        toppings:[{
+            _id?: string,
+            topid: number
+        }]
+    }]
 }
