@@ -29,7 +29,7 @@ function App() {
     .catch(err => {
       console.log(new Error(err))
     })
-  },[])
+  },[dispatch])
   console.log(user)
   return (
     <Router>

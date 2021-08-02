@@ -7,6 +7,7 @@ interface State {
 }
 
 const initialState:Order = {
+    totalprice:0,
     iteminfo:[{
         _id: '123',
         price:100,

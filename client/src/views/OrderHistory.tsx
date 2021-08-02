@@ -43,7 +43,6 @@ const OrderHistory = () => {
     const toppings = useSelector((state:RootState) => state.topping)
     const user = useSelector((state:RootState) => state.user)
     const orders = useSelector((state:RootState) => state.order)
-    console.log(orders)
     useEffect(() => {
         axios.get('/api/items')
         .then(res => {
@@ -70,7 +69,6 @@ const OrderHistory = () => {
         .then(res => {
             const orderArray = res.data
             dispatch(setOrders(orderArray))
-            console.log(orderArray)
         })
     },[dispatch, user.userid])
 
@@ -80,9 +78,7 @@ const OrderHistory = () => {
         .then(res => {
             const order = res.data
             dispatch(setOrders(order))
-            console.log(order)
         })
-        console.log(orders)
     }
     return (
         <React.Fragment>
@@ -133,7 +129,10 @@ const OrderHistory = () => {
                             ))}
                             <div className="module-spacer--extra-extra-small" />
                             <Grid container justifyContent="flex-end">
-                                {order.status === 9 ? <span>キャンセル済み</span> : <Button variant="outlined" onClick={() => cancelBtn(order._id)}>キャンセル</Button>}
+                                <div>お支払い金額：{order.totalprice.toLocaleString()}円</div>
+                            </Grid>
+                            <Grid container justifyContent="flex-end">
+                                {order.status === 9 ? <div>キャンセル済み</div> : <Button variant="outlined" onClick={() => cancelBtn(order._id)}>キャンセル</Button>}
                             </Grid>
                             <p></p>
                             <Divider />

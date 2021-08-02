@@ -65,6 +65,7 @@ export interface Order {
     card?: string,
     orderdate?: string,
     status?: number,
+    totalprice: number,
     iteminfo:[{
         _id: string,
         price: number,

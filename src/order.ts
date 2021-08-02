@@ -15,6 +15,7 @@ const OrderSchema = new mongoose.Schema({
     card: String,
     orderdate: String,
     status: Number,
+    totalprice: Number,
     iteminfo:[{
         price: Number,
         buynum: Number,

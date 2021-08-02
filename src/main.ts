@@ -170,7 +170,8 @@ mongoose.connect(dbUrl,
                 deliverydate:orderinfo.deliveryDate,
                 deliverytime:orderinfo.deliveryTime,
                 paymethod:orderinfo.paymethod,
-                card:orderinfo.card
+                card:orderinfo.card,
+                totalprice:orderinfo.totalprice
                 }},
             {new:true},
             (err) => {

@@ -130,7 +130,8 @@ const ItemDetail = () => {
                     dispatch(cart(orderArray))
                 })
             }
-            alert("ショッピングカートに商品を追加しました")
+            // alert("ショッピングカートに商品を追加しました")
+            handleLink('/cart-item')
         }else{
             alert("ログインしてください。会員登録がまだの方は新規登録をお願いします。")
         }

@@ -40,18 +40,13 @@ const CartItem = () => {
         })
     },[user, dispatch])
     
-    // useEffect(() => {
-    //     const price = order.iteminfo.map(p => p.price)
-    //     console.log(price)
-    // },[order])
-    // if(user.login){
-    //     const price = order.iteminfo.map(p => p.price)
-    //     console.log(price)
-    // }
-    // const price = order.iteminfo.map(p => p.price)
-    // console.log(price)
-    // const totalPrice = order.iteminfo.reduce((a,b) => a + b.price, 0)
-    // console.log(totalPrice)
+    const [totalPrice, setTotalPrice] = useState(0)
+    useEffect(() => {
+        if(Object.keys(order).length !== 0){
+            const total = order.iteminfo.reduce((a,b) => a + b.price, 0)
+            setTotalPrice(total)
+        }
+    },[order])
 
     const deleteCart = (id:string | undefined) => {
         const delOrderId = order._id
@@ -110,7 +105,7 @@ const CartItem = () => {
                     <button onClick={() => deleteCart(cart._id)}>削除</button>
                     </div>
                 ))}
-                <div>合計金額：{}</div>
+                <div>合計金額：{totalPrice.toLocaleString()}円</div>
                 <button onClick={() => showOrderForm()}>注文に進む</button>
                 {show && <OrderForm/>}
                 </>

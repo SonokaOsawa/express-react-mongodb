@@ -25,6 +25,7 @@ const OrderForm = () => {
     const handleLink = (path: string) => history.push(path)
     const dispatch = useDispatch()
     const user = useSelector((state:RootState) => state.user)
+    const order = useSelector((state:RootState) => state.cart)
     const [name, setName] = useState('')
     const changeName = (e:any) => {
         setName(e.target.value)
@@ -106,6 +107,14 @@ const OrderForm = () => {
         setCard(e.target.value)
     }
 
+    const [totalPrice, setTotalPrice] = useState(0)
+    useEffect(() => {
+        if(Object.keys(order).length !== 0){
+            const total = order.iteminfo.reduce((a,b) => a + b.price, 0)
+            setTotalPrice(total)
+        }
+    },[order])
+
     const onSubmit:SubmitHandler<Inputs> = (data) => {
         const orderinfo = {
             name: data.name,
@@ -117,7 +126,8 @@ const OrderForm = () => {
             deliveryDate: data.date,
             deliveryTime: data.time,
             paymethod: data.paymethod,
-            card: data.card
+            card: data.card,
+            totalprice: totalPrice
         }
         const id = user.userid
         axios.put(`/api/orders/order/${id}`, {orderinfo})
