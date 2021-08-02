@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Header from './views/Header';
 import Home from './views/Home';
 import CartItem from './views/CartItem';
@@ -8,7 +8,7 @@ import ItemDetail from './views/ItemDetail';
 import Login from './views/Login';
 import Regist from './views/Regist';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { RootState, User } from './views/store';
+import { RootState } from './views/store';
 import axios from 'axios';
 import { useSelector, useDispatch } from "react-redux";
 import {regist} from './actions/index';
