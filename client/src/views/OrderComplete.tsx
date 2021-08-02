@@ -1,5 +1,5 @@
-import React, {useEffect} from "react";
-import {useHistory, BrowserRouter as Router, Switch, Route, Redirect, Link} from 'react-router-dom';
+import React from "react";
+import {useHistory} from 'react-router-dom';
 
 const OrderComplete = () => {
     const history = useHistory();

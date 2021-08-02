@@ -18,7 +18,7 @@ const Home = () => {
         .catch(err => {
             console.error(new Error(err))
         })
-    },[])
+    },[dispatch])
     return (
         <React.Fragment>
             Home

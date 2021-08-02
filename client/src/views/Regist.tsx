@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {useHistory} from 'react-router-dom';
 import axios from 'axios';
@@ -12,7 +12,7 @@ type Inputs = {
 }
 
 const Regist = () => {
-    const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
+    const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
     const history = useHistory()
     const handleLink = (path: string) => history.push(path);
     const dispatch = useDispatch()

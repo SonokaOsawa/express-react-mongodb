@@ -54,8 +54,6 @@ mongoose.connect(dbUrl,
 
     app.post('/api/users/register', (req,res) => {
         const {email, pass} = req.body
-        console.log("新規登録")
-        console.log(req.body)
         const createId = () => {
             return Math.floor(Math.random() * 101)
         }
@@ -72,7 +70,6 @@ mongoose.connect(dbUrl,
                         res.status(500).send()
                     } else {
                         res.status(200).send(userArray)
-                        console.log(userArray)
                     }
                 })
             }
@@ -81,8 +78,6 @@ mongoose.connect(dbUrl,
 
     app.put('/api/users/logout/:id', (req,res) => {
         const id = req.params.id
-        console.log(id)
-        console.log("ログアウト")
         user.findByIdAndUpdate(id, {$set:{login:false}}, err =>{
             if (err) res.status(500).send()
             else{
@@ -99,8 +94,6 @@ mongoose.connect(dbUrl,
 
     app.put('/api/users/login/:id', (req,res) => {
         const id = req.params.id
-        console.log(id)
-        console.log("ログイン")
         user.findByIdAndUpdate(id, {$set:{login:true}}, (err) => {
             if(err) res.status(500).send()
             else{
@@ -115,21 +108,17 @@ mongoose.connect(dbUrl,
         })
     })
 
-    app.post('/api/orders/cart', (req,res) => {
-        console.log("カートに入れる")
+    app.post('/api/orders/cartin/:id', (req,res) => {
+        const id = req.params.id
         const cart = {
             ...req.body.cartItem
         }
         new order(cart).save((err:any) => {
             if (err) res.status(500)
             else{
-                order.find({},(err, orderArray) => {
-                    if(err) {
-                        res.status(500).send()
-                    }else{
-                        res.status(200).send(orderArray)
-                        console.log(orderArray)
-                    }
+                order.findOne({orderid:id, status:0})
+                .then((order:any) => {
+                    res.status(200).send(order)
                 })
             }
         })
@@ -137,41 +126,84 @@ mongoose.connect(dbUrl,
 
     app.get('/api/orders/cart/:id', (req,res) => {
         const id = req.params.id
-        console.log(id)
-        console.log("get cart")
-        order.findOne({ orderid: id, status: 0}).then((cart:any) => {
-                res.status(200).send(cart)
-                console.log(cart)
+        order.findOne({ orderid: id, status: 0})
+        .then((cart:any) => {
+            res.status(200).send(cart)
         })
     })
 
     app.put('/api/orders/addcart/:id', (req, res) => {
         const id = req.params.id
-        console.log(id)
-        console.log(req.body.iteminfo)
-        console.log("add cart")
         order.findOneAndUpdate(
             { orderid: id, status: 0},
             {$push:{iteminfo:req.body.iteminfo}},
             {new:true}
             ).then((cart:any) => {
-                console.log(cart)
                 res.status(200).send(cart)
             })
     })
 
     app.put('/api/orders/delete/:id', (req, res) => {
         const id = req.params.id
-        console.log(id)
-        console.log(req.body.id)
-        console.log("削除")
         order.findOneAndUpdate(
             {_id: id},
             {$pull:{iteminfo:{_id:req.body.id}}},
             {new:true}
         ).then((cart:any) => {
-            console.log(cart)
             res.status(200).send(cart)
+        })
+    })
+
+    app.put('/api/orders/order/:id', (req, res) => {
+        const id = req.params.id
+        const orderinfo = req.body.orderinfo
+        order.findOneAndUpdate(
+            { orderid:id, status:0 },
+            { $set:{
+                status:1, 
+                name:orderinfo.name,
+                email:orderinfo.email,
+                zipcode:orderinfo.zipcode,
+                address:orderinfo.address,
+                tel:orderinfo.tel,
+                orderdate:orderinfo.orderdate,
+                deliverydate:orderinfo.deliveryDate,
+                deliverytime:orderinfo.deliveryTime,
+                paymethod:orderinfo.paymethod,
+                card:orderinfo.card
+                }},
+            {new:true},
+            (err) => {
+                if(err) res.status(500).send()
+                else{
+                    order.find({orderid:id, status:{$ne:0}})
+                    .then((order:any) => {
+                        res.status(200).send(order)
+                    })
+                }
+            }
+        )
+    })
+
+    app.get('/api/orders/getorders/:id', (req, res) => {
+        const id = req.params.id
+        order.find({orderid:id, status:{$ne:0}})
+        .then((orders:any) => {
+            res.status(200).send(orders)
+        }) 
+    })
+
+    app.put('/api/orders/cancel/:id', (req, res) => {
+        const id = req.params.id
+        const orderid = req.body.orderid
+        order.findByIdAndUpdate(id, {$set:{status:9}},(err) => {
+            if(err) res.status(500).send()
+            else{
+                order.find({orderid:orderid, status:{$ne:0}})
+                .then((order:any) => {
+                    res.status(200).send(order)
+                })
+            }
         })
     })
 

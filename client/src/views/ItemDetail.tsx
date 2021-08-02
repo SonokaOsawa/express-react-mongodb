@@ -24,7 +24,8 @@ const ItemDetail = () => {
         .catch(err => {
             console.error(new Error(err))
         })
-    },[])
+    },[dispatch])
+
     useEffect(() => {
         axios.get('/api/toppings')
         .then(res => {
@@ -34,7 +35,8 @@ const ItemDetail = () => {
         .catch(err => {
             console.error(new Error(err))
         })
-    },[])
+    },[dispatch])
+
     useEffect(() => {
         const id = user.userid
         axios.get(`/api/orders/cart/${id}`)
@@ -43,7 +45,7 @@ const ItemDetail = () => {
             console.log(orderArray)
             dispatch(cart(orderArray))
         })
-    },[user])
+    },[user, dispatch])
     let item:Item = {
         id:1,
         name:'',
@@ -89,7 +91,7 @@ const ItemDetail = () => {
     topL = evenTop.length
     if(size === 'M'){
         totalPrice = (item.pm + (200 * topM) + (300 * topL)) * buyNum
-    }else if(size == 'L'){
+    }else if(size === 'L'){
         totalPrice = (item.pl + (200 * topM) + (300 * topL)) * buyNum
     }
     const handleCartIn = () => {
@@ -120,19 +122,19 @@ const ItemDetail = () => {
                     dispatch(cart(orderArray))
                 })
             }else {
-                axios.post(`/api/orders/cart`,{cartItem})
+                const id = user.userid
+                axios.post(`/api/orders/cartin/${id}`,{cartItem})
                 .then(res => {
                     const orderArray = res.data
+                    console.log(orderArray)
                     dispatch(cart(orderArray))
                 })
             }
-            handleLink('/cart-item')
+            alert("ショッピングカートに商品を追加しました")
         }else{
             alert("ログインしてください。会員登録がまだの方は新規登録をお願いします。")
         }
     }
-    console.log(order)
-    console.log(Object.keys(order).length)
     return (
         <React.Fragment>
             商品詳細
@@ -164,7 +166,7 @@ const ItemDetail = () => {
                 </div>
             ))}
             <div>
-                数量
+                個数
                 <TextField
                 id='outlined-number'
                 type='number'

@@ -31,7 +31,7 @@ const Login = () => {
             }
         })
         
-    },[email,pass])
+    },[email,pass,users,dispatch])
     
     const changeEmail = (e:any) => {
         setEmail(e.target.value)

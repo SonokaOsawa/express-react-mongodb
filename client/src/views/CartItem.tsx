@@ -1,14 +1,12 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {useHistory} from "react-router-dom";
-import { RootState, Item } from './store';
-import { setTopping, setItem, cart, regist } from '../actions/index';
+import { RootState } from './store';
+import { setTopping, setItem, cart } from '../actions/index';
+import OrderForm from './OrderForm'
 
 
 const CartItem = () => {
-    const history = useHistory()
-    const handleLink = (path: string) => history.push(path)
     const dispatch = useDispatch()
     const items = useSelector((state:RootState) => state.item)
     const toppings = useSelector((state:RootState) => state.topping)
@@ -37,9 +35,11 @@ const CartItem = () => {
         axios.get(`/api/orders/cart/${id}`)
         .then(res => {
             const orderArray = res.data
+            console.log(orderArray)
             dispatch(cart(orderArray))
         })
-    },[user])
+    },[user, dispatch])
+    
     // useEffect(() => {
     //     const price = order.iteminfo.map(p => p.price)
     //     console.log(price)
@@ -61,6 +61,13 @@ const CartItem = () => {
             dispatch(cart(orderArray))
         })
     }
+
+    const [show, setShow] = useState(false)
+    const showOrderForm = () => {
+        if(user.login) {
+            setShow(!show)
+        }
+    }
     return (
         <React.Fragment>
             ショッピングカート
@@ -80,6 +87,7 @@ const CartItem = () => {
                         <div key={i._id}>
                             <p>{i.name}</p>
                             <img src={i.imgpath} 
+                            alt="商品画像"
                             style={{ width: 224, height: 224 }}/>
                             <p>
                                 {cart.size === 'M' ? 
@@ -103,6 +111,8 @@ const CartItem = () => {
                     </div>
                 ))}
                 <div>合計金額：{}</div>
+                <button onClick={() => showOrderForm()}>注文に進む</button>
+                {show && <OrderForm/>}
                 </>
                 )
                 }
