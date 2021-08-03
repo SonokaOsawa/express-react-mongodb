@@ -5,6 +5,8 @@ import {useHistory} from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import {login} from '../actions/index';
 import {regist} from '../actions/index';
+import { Box } from '@material-ui/core';
+
 
 const Login = () => {
     const history = useHistory()
@@ -77,7 +79,7 @@ const Login = () => {
         }
     }
     return (
-        <React.Fragment>
+        <Box mt={10}>
             ログイン
             <p>メールアドレス</p>
             <input value={email} onChange={(e) => changeEmail(e)}/>
@@ -86,7 +88,7 @@ const Login = () => {
             <input value={pass} onChange={(e) => changePass(e)}/>
             <p>{passError}</p>
             <button onClick={() => handleLogin(user._id)}>ログイン</button>
-        </React.Fragment>
+        </Box>
     )
 }
 

@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { RootState, User } from './store'
 import axios from 'axios';
 import { regist } from "../actions";
-
+import { AppBar, Button, Toolbar } from "@material-ui/core";
 
 const Header = () => {
     const history = useHistory();
@@ -32,21 +32,25 @@ const Header = () => {
 
 
     return (
-        <nav>
-            <button onClick={() => handleLink('/')}>Home</button>
-            {user.login ? 
-            <>
-            <button onClick={() => handleLink('/cart-item')}>ショッピングカート</button>
-            <button onClick={() => handleLink('/order-history')}>注文履歴</button>
-            <button onClick={() => logout(user._id)}>ログアウト</button>
-            </>
-            :
-            <>
-            <button onClick={() => handleLink('/login')}>ログイン</button>
-            <button onClick={() => handleLink('/regist')}>新規登録</button>
-            </>
-            }
-        </nav>
+        <AppBar>
+            <Toolbar>
+                <nav>
+                    <Button  color="inherit" onClick={() => handleLink('/')}>Home</Button>
+                    {user.login ? 
+                    <>
+                    <Button color="inherit" onClick={() => handleLink('/cart-item')}>ショッピングカート</Button>
+                    <Button color="inherit" onClick={() => handleLink('/order-history')}>注文履歴</Button>
+                    <Button color="inherit" onClick={() => logout(user._id)}>ログアウト</Button>
+                    </>
+                    :
+                    <>
+                    <Button color="inherit" onClick={() => handleLink('/login')}>ログイン</Button>
+                    <Button color="inherit" onClick={() => handleLink('/regist')}>新規登録</Button>
+                    </>
+                    }
+                </nav>
+            </Toolbar>
+        </AppBar>
     )
 }
 

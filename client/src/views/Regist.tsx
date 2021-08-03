@@ -5,6 +5,8 @@ import axios from 'axios';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { RootState } from './store'
 import {regist, changeEmail, changePass} from '../actions/index'
+import { Box } from '@material-ui/core';
+
 
 type Inputs = {
     email: string,
@@ -38,7 +40,7 @@ const Regist = () => {
         alert("正しく入力してください")
     }
     return (
-        <React.Fragment>
+        <Box mt={10}>
             新規登録
             <p>メールアドレス</p>
             <input {...register("email", {required: true, pattern: /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/})} value={email} onChange={(e) => dispatch(changeEmail(e.target.value))}/>
@@ -47,7 +49,7 @@ const Regist = () => {
             <input {...register("pass", {required: true, min: 6, max: 10, pattern:/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d]{6,10}$/})} value={pass} onChange={(e) => dispatch(changePass(e.target.value))}/>
             {errors.pass && <p>パスワードは半角英小文字大文字数字をそれぞれ1種類以上含め、6文字以上10文字以下で入力してください</p>}
             <button onClick={handleSubmit(onSubmit,onError)}>登録</button>
-        </React.Fragment>
+        </Box>
     )
 }
 

@@ -4,6 +4,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import { RootState } from './store';
 import { setTopping, setItem, cart } from '../actions/index';
 import OrderForm from './OrderForm'
+import { Box } from '@material-ui/core';
 
 
 const CartItem = () => {
@@ -64,7 +65,7 @@ const CartItem = () => {
         }
     }
     return (
-        <React.Fragment>
+        <Box mt={10}>
             ショッピングカート
             {Object.keys(order).length === 0 ? (
                 <div>カートに商品がありません</div>
@@ -115,7 +116,7 @@ const CartItem = () => {
             )
             }
 
-        </React.Fragment>
+        </Box>
     )
 }
 

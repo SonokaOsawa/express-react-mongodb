@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setTopping, setItem, cart } from '../actions/index';
 import axios from 'axios';
 import { RootState, Item } from './store';
-import TextField from '@material-ui/core/TextField';
+import {TextField, Box} from '@material-ui/core';
 
 const ItemDetail = () => {
     const history = useHistory()
@@ -60,6 +60,7 @@ const ItemDetail = () => {
             item = i
         }
     })
+    console.log(item)
     const [size, setSize] = useState('M')
     const changeSize = (e:any) => {
         setSize(e.target.value)
@@ -137,7 +138,7 @@ const ItemDetail = () => {
         }
     }
     return (
-        <React.Fragment>
+        <Box mt={10}>
             商品詳細
                 <p>{item.name}</p>
                 <p>
@@ -178,7 +179,7 @@ const ItemDetail = () => {
             </div>
             <p>合計金額:{totalPrice.toLocaleString()}円</p>
             <button onClick={handleCartIn}>カートに入れる</button>
-        </React.Fragment>
+        </Box>
     )
 }
 

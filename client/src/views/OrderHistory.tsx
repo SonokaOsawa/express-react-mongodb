@@ -4,7 +4,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import { RootState } from './store';
 import { setTopping, setItem, setOrders } from '../actions/index';
 import {makeStyles} from "@material-ui/core/styles";
-import {List, Divider, ListItem, ListItemAvatar, ListItemText, Button, Grid} from '@material-ui/core';
+import {List, Divider, ListItem, ListItemAvatar, ListItemText, Button, Grid, Box} from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     orderList: {
@@ -81,7 +81,7 @@ const OrderHistory = () => {
         })
     }
     return (
-        <React.Fragment>
+        <Box mt={10}>
             注文履歴
             { orders.length <= 0 ? (
                 <div>注文履歴がありません</div>
@@ -140,7 +140,7 @@ const OrderHistory = () => {
                     ))}
                 </section>
             )}
-        </React.Fragment>
+        </Box>
     ) 
 }
 
