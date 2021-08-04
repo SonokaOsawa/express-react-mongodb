@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import axios from 'axios'
 import { setItem } from "../actions/index";
 import { RootState } from './store'
-import { TextField, Button, ImageList, ImageListItem, ImageListItemBar, Box } from "@material-ui/core";
+import { TextField, Button, ImageList, ImageListItem, ImageListItemBar, Box, Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     imageList: {
       width: 900,
-      height: 600,
+      height: 640,
     },
     icon: {
       color: 'rgba(255, 255, 255, 0.54)',
@@ -60,33 +60,33 @@ const Home = () => {
     }
     return (
         <Box mt={10}>
-            <h1>Home</h1>
-            <TextField label="商品検索" value={word} onChange={(e) => setWord(e.target.value)} />
-            <Button onClick={search}>検索</Button>
+            <Grid container justifyContent="center">
+            <TextField label="商品検索" value={word} onChange={(e) => setWord(e.target.value)} style={{width:400}}/>
+            <Button variant="outlined" onClick={search}>検索</Button>
+            </Grid>
+            <Box mt={2}>
             {noResult && (
                 <h2>検索ワードに一致する商品はありません</h2>
             )}
             <div className={classes.root}>
-                <ImageList rowHeight={250} className={classes.imageList}>
+                <ImageList rowHeight={300} className={classes.imageList}>
                 {array.map((item) => (
                     <ImageListItem key={item.id}>
                         <Link to={`/item-detail/${item.id}`}>
-                        {/* <p>{item.name}</p>
-                        <p>M:{item.pm}(税込)</p>
-                        <p>L:{item.pl}(税込)</p> */}
                         <img
                         src={item.imgpath}
                         alt="Pic"
                         />
                         <ImageListItemBar
-                            title={item.name}
-                            subtitle={<span>M:{item.pm}(税込)L:{item.pl}(税込)</span>}
+                            title={item.name }
+                            subtitle={<span>M:{item.pm}円(税込)　L:{item.pl}円(税込)</span>}
                         />
                         </Link>
                     </ImageListItem>
                 ))}
                 </ImageList>
-            </div>         
+            </div>
+            </Box>      
         </Box>
     )
 }

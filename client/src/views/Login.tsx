@@ -80,7 +80,7 @@ const Login = () => {
     }
     return (
         <Box mt={10}>
-            ログイン
+            <h2>ログイン</h2>
             <p>メールアドレス</p>
             <input value={email} onChange={(e) => changeEmail(e)}/>
             <p>{emailError}</p>

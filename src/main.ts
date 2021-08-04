@@ -137,9 +137,15 @@ mongoose.connect(dbUrl,
         order.findOneAndUpdate(
             { orderid: id, status: 0},
             {$push:{iteminfo:req.body.iteminfo}},
-            {new:true}
-            ).then((cart:any) => {
-                res.status(200).send(cart)
+            {new:true},
+            (err) => {
+                if(err) res.status(500).send()
+                else{
+                    order.findOne({orderid:id, status:0})
+                    .then((order:any) => {
+                        res.status(200).send(order)
+                    })
+                }
             })
     })
 

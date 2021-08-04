@@ -143,39 +143,39 @@ const OrderForm = () => {
     }
     return (
         <Box textAlign="center">
-            お届け先情報
+            <h3>お届け先情報</h3>
             <Box>
-                <TextField {...register("name", {required:true})}　type="text" label="お名前" value={name} onChange={changeName} />
+                <TextField {...register("name", {required:true})}　type="text" label="お名前" value={name} onChange={changeName} style={{width: 400}}/>
                 {errors.name && <FormHelperText>お名前を入力してください</FormHelperText> }
             </Box>
-            <Box>
+            <Box mt={2}>
                 <TextField {...register("email", {required:true, pattern: /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/})} 
-                type="email" label="メールアドレス" value={email} onChange={changeEmail} />
+                type="email" label="メールアドレス" value={email} onChange={changeEmail} style={{width: 400}}/>
                 {errors.email && <FormHelperText>メールアドレスを正しく入力してください</FormHelperText>}
             </Box>
-            <Box>
+            <Box mt={2}>
                 <TextField {...register("zipcode", {required:true, pattern: /^[0-9]{3}-[0-9]{4}$/})}
-                label="郵便番号" value={zipcode} onChange={changeZipcode} />
+                label="郵便番号" value={zipcode} onChange={changeZipcode} style={{width: 400}}/>
                 {errors.zipcode?.type === "required" && <FormHelperText>郵便番号を入力してください</FormHelperText>}
                 {errors.zipcode?.type === "pattern" && <FormHelperText>郵便番号はXXX-XXXXの形式で入力してください</FormHelperText>}
             </Box>
-            <Box>
-                <TextField {...register("address", {required:true})} type="text" label="住所" value={address} onChange={changeAddress} />
+            <Box mt={2}>
+                <TextField {...register("address", {required:true})} type="text" label="住所" value={address} onChange={changeAddress} style={{width: 400}}/>
                 {errors.address && <FormHelperText>住所を入力してください</FormHelperText>}
             </Box>
-            <Box>
+            <Box mt={2}>
                 <TextField {...register("tel", {required:true, pattern: /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/})}
-                label="携帯電話番号" value={tel} onChange={changeTel} />
+                label="携帯電話番号" value={tel} onChange={changeTel} style={{width: 400}}/>
                 {errors.tel?.type === "required" && <FormHelperText>携帯電話番号を入力してください</FormHelperText>}
                 {errors.tel?.type === "pattern" && <FormHelperText>携帯電話番号はXXX-XXXX-XXXXの形式で入力してください</FormHelperText>}
             </Box>
-            <Box>
-                <TextField {...register("date", {required:true, validate: value => (orderDate - selDate) <= 0})} type="date" label="配達希望日" value={date} onChange={changeDate} />
+            <Box mt={2}>
+                <TextField {...register("date", {required:true, validate: value => (orderDate - selDate) <= 0})} type="date" label="配達希望日" value={date} onChange={changeDate} style={{width: 400}}/>
                 {errors.date?.type === "required" && <FormHelperText>配達希望日を選択してください</FormHelperText>}
                 {errors.date?.type === "validate" && <FormHelperText>過去の日付は選択できません</FormHelperText>}
             </Box>
             {showTime && (
-            <Box>
+            <Box mt={2}>
                 <Controller 
                 name="time" 
                 control={control} 
@@ -200,7 +200,7 @@ const OrderForm = () => {
             </Box>
             )}
             {showValTime && (
-                <Box>
+                <Box mt={2}>
                     <Controller
                     name="time"
                     control={control} 
@@ -226,11 +226,12 @@ const OrderForm = () => {
                     )} />
                 </Box>
             )}
-            <Box>
+            <Box mt={2}>
                 <TextField 
                 select 
                 label="お支払い方法"
                 value={paymethod}
+                style={{width: 400}}
                 {...register("paymethod", {required:true})}
                 onChange={changePaymethod}>
                     <MenuItem value={0}>代金引換</MenuItem>
@@ -238,16 +239,19 @@ const OrderForm = () => {
                 </TextField>
             </Box>
             {paymethod === 1 && (
-                <Box>
+                <Box mt={2}>
                     <TextField
                     {...register("card", {pattern:/^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$/})}
                     label="クレジットカード番号"
                     value={card}
+                    style={{width: 400}}
                     onChange={changeCard} />
                     {errors.card?.type === "pattern" && <FormHelperText>クレジットカード番号はXXXX-XXXX-XXXX-XXXXの形式で入力してください</FormHelperText>}
                 </Box>
             )}
-            <Button onClick={handleSubmit(onSubmit,onError)}>この内容で注文する</Button>
+            <Box my={2}>
+            <Button variant="outlined" onClick={handleSubmit(onSubmit,onError)}>この内容で注文する</Button>
+            </Box>
         </Box>
     )
 }

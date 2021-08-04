@@ -41,7 +41,7 @@ const Regist = () => {
     }
     return (
         <Box mt={10}>
-            新規登録
+            <h2>新規登録</h2>
             <p>メールアドレス</p>
             <input {...register("email", {required: true, pattern: /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/})} value={email} onChange={(e) => dispatch(changeEmail(e.target.value))}/>
             {errors.email && <p>メールアドレスを正しく入力してください</p>}

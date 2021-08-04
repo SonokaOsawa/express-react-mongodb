@@ -3,10 +3,26 @@ import {useHistory, useParams} from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setTopping, setItem, cart } from '../actions/index';
 import axios from 'axios';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { RootState, Item } from './store';
-import {TextField, Box} from '@material-ui/core';
+import {TextField, Box, Grid, Button} from '@material-ui/core';
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    paper: {
+      width: 300,
+    },
+    control: {
+      padding: theme.spacing(2),
+    },
+  }),
+);
 
 const ItemDetail = () => {
+    const classes = useStyles();
     const history = useHistory()
     const handleLink = (path: string) => history.push(path)
     const {item_id}:{item_id:string} = useParams()
@@ -42,7 +58,6 @@ const ItemDetail = () => {
         axios.get(`/api/orders/cart/${id}`)
         .then(res => {
             const orderArray = res.data
-            console.log(orderArray)
             dispatch(cart(orderArray))
         })
     },[user, dispatch])
@@ -60,7 +75,6 @@ const ItemDetail = () => {
             item = i
         }
     })
-    console.log(item)
     const [size, setSize] = useState('M')
     const changeSize = (e:any) => {
         setSize(e.target.value)
@@ -131,54 +145,58 @@ const ItemDetail = () => {
                     dispatch(cart(orderArray))
                 })
             }
-            // alert("ショッピングカートに商品を追加しました")
             handleLink('/cart-item')
         }else{
             alert("ログインしてください。会員登録がまだの方は新規登録をお願いします。")
         }
     }
     return (
-        <Box mt={10}>
-            商品詳細
-                <p>{item.name}</p>
-                <p>
-                    <img
-                    src={`/${item.imgpath}`}
-                    alt="Pic"
-                    />
-                </p>
-                <p>{item.des}</p>
-                <p>サイズ
-                    <label>
-                        <input type='radio' value='M' onChange={(e) => {changeSize(e)}} checked={size === 'M'}/>
-                        <span>M {item.pm}円</span>
-                    </label>
-                    <label>
-                        <input type='radio' value='L'checked={size === 'L'} onChange={(e) => {changeSize(e)}}/>
-                        <span>L {item.pl}円</span>
-                    </label>
-                </p>
-            <p>トッピング</p>
-            {toppings.map((top) => (
-                <div key={top.id}>
-                    <label>
-                        <input type='checkbox' value={top.id} onChange={(e) => addTop(e)}/>
-                        <span>{top.size} {top.name} {top.p}円</span>
-                    </label>
-                </div>
-            ))}
-            <div>
-                個数
-                <TextField
-                id='outlined-number'
-                type='number'
-                value={buyNum}
-                InputProps={{ inputProps: { min: 1, max: 10 } }}
-                onChange={(e) => { changebuyNum(e) }}
-                />
-            </div>
-            <p>合計金額:{totalPrice.toLocaleString()}円</p>
-            <button onClick={handleCartIn}>カートに入れる</button>
+        <Box mt={10} mx={2}>
+            <Grid container className={classes.root} spacing={2}>
+                <Grid item xs={12}>
+                    <Grid container justifyContent="center" spacing={1}>
+                        <Grid item xs={4}>
+                            <img
+                            src={`/${item.imgpath}`}
+                            alt="Pic"
+                            />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <h2>{item.name}</h2>
+                            <p>{item.des}</p>
+                            <h4>サイズ</h4>
+                                <label>
+                                    <input type='radio' value='M' onChange={(e) => {changeSize(e)}} checked={size === 'M'}/>
+                                    <span>M {item.pm}円</span>
+                                </label>
+                                <label>
+                                    <input type='radio' value='L'checked={size === 'L'} onChange={(e) => {changeSize(e)}}/>
+                                    <span>L {item.pl}円</span>
+                                </label>
+                            <h4>トッピング</h4>
+                            <p>トッピングの金額 →　M:200円　L:300円</p>
+                            {toppings.map((top) => (
+                                <div key={top.id}>
+                                    <label>
+                                        <input type='checkbox' value={top.id} onChange={(e) => addTop(e)}/>
+                                        <span>{top.size} {top.name}</span>
+                                    </label>
+                                </div>
+                            ))}
+                                <h4>個数</h4>
+                                <TextField
+                                id='outlined-number'
+                                type='number'
+                                value={buyNum}
+                                InputProps={{ inputProps: { min: 1, max: 10 } }}
+                                onChange={(e) => { changebuyNum(e) }}
+                                />
+                            <h3>合計金額：{totalPrice.toLocaleString()}円</h3>
+                            <Button variant="outlined" onClick={handleCartIn}>カートに入れる</Button>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
         </Box>
     )
 }

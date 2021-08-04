@@ -82,14 +82,15 @@ const OrderHistory = () => {
     }
     return (
         <Box mt={10}>
-            注文履歴
+            <Box textAlign="center">
+            <h2>注文履歴</h2>
+            </Box>
             { orders.length <= 0 ? (
                 <div>注文履歴がありません</div>
             ) : (
                 <section className="c-section-wrapin">
                     {orders.map(order => (
                         <List className={classes.orderList} key={order._id}>
-                            {/* <div className="module-spacer--small" /> */}
                             <div>注文日時：{order.orderdate}</div>
                             {order.iteminfo.map(orderitem => (
                                 <List key={orderitem._id}>

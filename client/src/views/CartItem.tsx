@@ -4,7 +4,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import { RootState } from './store';
 import { setTopping, setItem, cart } from '../actions/index';
 import OrderForm from './OrderForm'
-import { Box } from '@material-ui/core';
+import { Box, TableContainer, Table, TableBody, TableCell, TableHead, TableRow, Button } from '@material-ui/core';
 
 
 const CartItem = () => {
@@ -36,7 +36,6 @@ const CartItem = () => {
         axios.get(`/api/orders/cart/${id}`)
         .then(res => {
             const orderArray = res.data
-            console.log(orderArray)
             dispatch(cart(orderArray))
         })
     },[user, dispatch])
@@ -65,7 +64,7 @@ const CartItem = () => {
         }
     }
     return (
-        <Box mt={10}>
+        <Box mt={10} mx={5}>
             ショッピングカート
             {Object.keys(order).length === 0 ? (
                 <div>カートに商品がありません</div>
@@ -75,43 +74,68 @@ const CartItem = () => {
                 <div>カートに商品がありません</div>
                 ) : (
                 <>
-                {order.iteminfo.map((cart) => (
-                    <div key={cart._id}>
-                    {items.filter((item) => {
-                        return cart.itemid === item.id
-                    }).map((i) => (
-                        <div key={i._id}>
-                            <p>{i.name}</p>
-                            <img src={i.imgpath} 
-                            alt="商品画像"
-                            style={{ width: 224, height: 224 }}/>
-                            <p>
-                                {cart.size === 'M' ? 
-                                <span>{i.pm}円</span> : <span>{i.pl}円</span>}
-                            </p>
-                            {cart.toppings.map((topping) => (
-                                <div key={topping._id}>
-                                    {toppings.filter((top) => {
-                                        return topping.topid === top.id
-                                    }).map((t) => (
-                                        <div key={t._id}>
-                                            <p>{t.name}</p>
-                                            <p>{t.p}円</p>
-                                        </div>
+                <TableContainer>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>商品名</TableCell>
+                                <TableCell>サイズ、単価</TableCell>
+                                <TableCell>個数</TableCell>
+                                <TableCell>トッピング</TableCell>
+                                <TableCell>削除</TableCell>
+                            </TableRow>
+                        </TableHead>
+                            {order.iteminfo.map((cart) => (
+                                <TableBody key={cart._id}>
+                                    <TableRow>
+                                    {items.filter((item) => {
+                                        return cart.itemid === item.id
+                                    }).map((i) => (
+                                        <React.Fragment key={i._id}>
+                                            <TableCell>
+                                                <p>{i.name}</p>
+                                                <img src={i.imgpath} 
+                                                alt="商品画像"
+                                                style={{ width: 224, height: 224 }}/>
+                                            </TableCell>
+                                            <TableCell>
+                                            {cart.size === 'M' ? 
+                                            <><p>M</p><p>{i.pm}円</p></> : <><p>L</p><p>{i.pl}円</p></>}
+                                            </TableCell>
+                                            <TableCell>{cart.buynum}</TableCell>
+                                            {cart.toppings.length <= 0 ? (
+                                                <TableCell>なし</TableCell>
+                                            ) : (
+                                                <TableCell>
+                                                    {cart.toppings.map((topping) => (
+                                                <React.Fragment key={topping._id}>
+                                                {toppings.filter((top) => {
+                                                return topping.topid === top.id
+                                                }).map((t) => (
+                                                <React.Fragment key={t._id}>
+                                                    <React.Fragment><p>{t.name}</p><p>{t.p}円</p></React.Fragment>
+                                                </React.Fragment>
+                                                ))}
+                                                </React.Fragment>
+                                            ))}
+                                                </TableCell>
+                                            )}
+                                        </React.Fragment>
                                     ))}
-                                </div>
-                            ))}
-                        </div>
-                    ))}
-                    <button onClick={() => deleteCart(cart._id)}>削除</button>
-                    </div>
+                            <TableCell><Button variant="outlined" onClick={() => deleteCart(cart._id)}>削除</Button></TableCell>
+                    </TableRow>
+                    </TableBody>
                 ))}
-                <div>合計金額：{totalPrice.toLocaleString()}円</div>
-                <button onClick={() => showOrderForm()}>注文に進む</button>
+                    </Table>
+                </TableContainer>
+                <p></p>
+                <Box textAlign="right" mx={5}>
+                <h3>合計金額：{totalPrice.toLocaleString()}円</h3>
+                </Box>
+                <Button variant="outlined" onClick={() => showOrderForm()}>注文に進む</Button>
                 {show && <OrderForm/>}
                 </>
-                )
-                }
+                )}
             </>
             )
             }
