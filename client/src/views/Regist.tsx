@@ -5,7 +5,7 @@ import axios from 'axios';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { RootState } from './store'
 import {regist, changeEmail, changePass} from '../actions/index'
-import { Box } from '@material-ui/core';
+import { Box, TextField, FormHelperText, Button } from '@material-ui/core';
 
 
 type Inputs = {
@@ -42,13 +42,18 @@ const Regist = () => {
     return (
         <Box mt={10}>
             <h2>新規登録</h2>
-            <p>メールアドレス</p>
-            <input {...register("email", {required: true, pattern: /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/})} value={email} onChange={(e) => dispatch(changeEmail(e.target.value))}/>
-            {errors.email && <p>メールアドレスを正しく入力してください</p>}
-            <p>パスワード(※半角英小文字大文字数字をそれぞれ1種類以上含め、6文字以上10文字以下で入力してください)</p>
-            <input {...register("pass", {required: true, min: 6, max: 10, pattern:/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d]{6,10}$/})} value={pass} onChange={(e) => dispatch(changePass(e.target.value))}/>
-            {errors.pass && <p>パスワードは半角英小文字大文字数字をそれぞれ1種類以上含め、6文字以上10文字以下で入力してください</p>}
-            <button onClick={handleSubmit(onSubmit,onError)}>登録</button>
+            <TextField {...register("email", {required: true, pattern: /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/})}
+            label="メールアドレス" value={email} onChange={(e) => dispatch(changeEmail(e.target.value))} style={{width: 400}}/>
+            {errors.email && <FormHelperText>メールアドレスを正しく入力してください</FormHelperText>}
+            <Box mt={3}>
+            <div>パスワード(※半角英小文字大文字数字をそれぞれ1種類以上含め、6文字以上10文字以下で入力してください)</div>
+            </Box>
+            <TextField {...register("pass", {required: true, min: 6, max: 10, pattern:/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d]{6,10}$/})}
+            value={pass} onChange={(e) => dispatch(changePass(e.target.value))} label="パスワード" style={{width: 400}}/>
+            {errors.pass && <FormHelperText>パスワードは半角英小文字大文字数字をそれぞれ1種類以上含め、6文字以上10文字以下で入力してください</FormHelperText>}
+            <Box mt={2}>
+            <Button onClick={handleSubmit(onSubmit,onError)} variant="outlined">登録</Button>
+            </Box>
         </Box>
     )
 }

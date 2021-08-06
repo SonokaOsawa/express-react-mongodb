@@ -5,7 +5,7 @@ import {useHistory} from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import {login} from '../actions/index';
 import {regist} from '../actions/index';
-import { Box } from '@material-ui/core';
+import { Box, TextField, FormHelperText, Button } from '@material-ui/core';
 
 
 const Login = () => {
@@ -81,13 +81,13 @@ const Login = () => {
     return (
         <Box mt={10}>
             <h2>ログイン</h2>
-            <p>メールアドレス</p>
-            <input value={email} onChange={(e) => changeEmail(e)}/>
-            <p>{emailError}</p>
-            <p>パスワード</p>
-            <input value={pass} onChange={(e) => changePass(e)}/>
-            <p>{passError}</p>
-            <button onClick={() => handleLogin(user._id)}>ログイン</button>
+            <TextField type="email" label="メールアドレス" value={email} onChange={(e) => changeEmail(e)} style={{width: 400}}/>
+            <FormHelperText>{emailError}</FormHelperText>
+            <TextField type="text" label="パスワード" value={pass} onChange={(e) => changePass(e)} style={{width: 400}} />
+            <FormHelperText>{passError}</FormHelperText>
+            <Box mt={2}>
+            <Button onClick={() => handleLogin(user._id)} variant="outlined">ログイン</Button>
+            </Box>
         </Box>
     )
 }
