@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 import axios from 'axios'
 import { setItem } from "../actions/index";
 import { RootState } from './store'
-import { TextField, Button, ImageList, ImageListItem, ImageListItemBar, Box, Grid } from "@material-ui/core";
+import { TextField, IconButton, ImageList, ImageListItem, ImageListItemBar, Box } from "@material-ui/core";
+import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -60,10 +61,12 @@ const Home = () => {
     }
     return (
         <Box mt={10}>
-            <Grid container justifyContent="center">
-            <TextField label="商品検索" value={word} onChange={(e) => setWord(e.target.value)} style={{width:400}}/>
-            <Button variant="outlined" onClick={search}>検索</Button>
-            </Grid>
+            <Box textAlign="center">
+            <TextField label="検索" value={word} onChange={(e) => setWord(e.target.value)} style={{width:200}} variant="outlined"/>
+            <IconButton onClick={search}>
+                <SearchIcon/>
+            </IconButton>
+            </Box>
             <Box mt={2}>
             {noResult && (
                 <h2>検索ワードに一致する商品はありません</h2>
