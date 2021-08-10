@@ -79,12 +79,14 @@ const Login = () => {
         }
     }
     return (
-        <Box mt={10}>
+        <Box mt={10} mx={2}>
             <h2>ログイン</h2>
             <TextField type="email" label="メールアドレス" value={email} onChange={(e) => changeEmail(e)} style={{width: 400}}/>
             <FormHelperText>{emailError}</FormHelperText>
+            <Box mt={2}>
             <TextField type="text" label="パスワード" value={pass} onChange={(e) => changePass(e)} style={{width: 400}} />
             <FormHelperText>{passError}</FormHelperText>
+            </Box>
             <Box mt={2}>
             <Button onClick={() => handleLogin(user._id)} variant="outlined">ログイン</Button>
             </Box>
