@@ -5,7 +5,7 @@ import {Provider} from 'react-redux';
 import store from '../views/store'
 import userEvent from '@testing-library/user-event';
 
-describe('Homeのテスト', () => {
+describe('Homeコンポーネントのテスト', () => {
     beforeEach(() => {
         render(
             <Provider store={store}>

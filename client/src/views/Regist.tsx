@@ -43,13 +43,13 @@ const Regist = () => {
         <Box mt={10} mx={2}>
             <h2>新規登録</h2>
             <TextField {...register("email", {required: true, pattern: /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/})}
-            label="メールアドレス" value={email} onChange={(e) => dispatch(changeEmail(e.target.value))} style={{width: 400}}/>
+            label="メールアドレス" value={email} onChange={(e) => dispatch(changeEmail(e.target.value))} style={{width: 400}} id="email"/>
             {errors.email && <FormHelperText>メールアドレスを正しく入力してください</FormHelperText>}
             <Box mt={3} mb={1}>
             <div>パスワード(※半角英小文字大文字数字をそれぞれ1種類以上含め、6文字以上10文字以下で入力してください)</div>
             </Box>
             <TextField {...register("pass", {required: true, min: 6, max: 10, pattern:/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d]{6,10}$/})}
-            value={pass} onChange={(e) => dispatch(changePass(e.target.value))} label="パスワード" style={{width: 400}}/>
+            value={pass} onChange={(e) => dispatch(changePass(e.target.value))} label="パスワード" style={{width: 400}} id="password"/>
             {errors.pass && <FormHelperText>パスワードは半角英小文字大文字数字をそれぞれ1種類以上含め、6文字以上10文字以下で入力してください</FormHelperText>}
             <Box mt={2}>
             <Button onClick={handleSubmit(onSubmit,onError)} variant="outlined">新規登録</Button>

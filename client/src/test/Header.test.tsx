@@ -4,7 +4,7 @@ import Header from '../views/Header';
 import {Provider} from 'react-redux';
 import store from '../views/store'
 
-describe('ヘッダーコンポーネントのテスト',() => {
+describe('Headerコンポーネントのテスト',() => {
     beforeEach(() => {
         render(
             <Provider store={store}>
