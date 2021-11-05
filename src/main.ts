@@ -63,7 +63,7 @@ mongoose.connect(dbUrl,
             login:true,
             userid: createId()
         }).save((err:any) => {
-            if (err) res.status(500)
+            if (err) res.status(500).send()
             else {
                 user.find({},(err, userArray) => {
                     if(err) {
@@ -120,6 +120,7 @@ mongoose.connect(dbUrl,
                 .then((order:any) => {
                     res.status(200).send(order)
                 })
+                .catch(() => res.status(500).send())
             }
         })
     })
@@ -130,6 +131,7 @@ mongoose.connect(dbUrl,
         .then((cart:any) => {
             res.status(200).send(cart)
         })
+        .catch(() => res.status(500).send())
     })
 
     app.put('/api/orders/addcart/:id', (req, res) => {
@@ -145,6 +147,7 @@ mongoose.connect(dbUrl,
                     .then((order:any) => {
                         res.status(200).send(order)
                     })
+                    .catch(() => res.status(500).send())
                 }
             })
     })
@@ -158,6 +161,7 @@ mongoose.connect(dbUrl,
         ).then((cart:any) => {
             res.status(200).send(cart)
         })
+        .catch(() => res.status(500).send())
     })
 
     app.put('/api/orders/order/:id', (req, res) => {
@@ -187,6 +191,7 @@ mongoose.connect(dbUrl,
                     .then((order:any) => {
                         res.status(200).send(order)
                     })
+                    .catch(() => res.status(500).send())
                 }
             }
         )
@@ -197,7 +202,8 @@ mongoose.connect(dbUrl,
         order.find({orderid:id, status:{$ne:0}})
         .then((orders:any) => {
             res.status(200).send(orders)
-        }) 
+        })
+        .catch(() => res.status(500).send())
     })
 
     app.put('/api/orders/cancel/:id', (req, res) => {
@@ -210,6 +216,7 @@ mongoose.connect(dbUrl,
                 .then((order:any) => {
                     res.status(200).send(order)
                 })
+                .catch(() => res.status(500).send())
             }
         })
     })
