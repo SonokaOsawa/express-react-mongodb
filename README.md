@@ -1,2 +1,6 @@
 # express-react-mongodb
-ecサイト(React+Express+MongoDB+TypeScrip)
+
+ec サイト(React+Express+MongoDB+TypeScrip)
+
+client ディレクトリで yarn start
+src ディレクトリで yarn start
